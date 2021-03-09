@@ -30,7 +30,7 @@ setup_ssh_keys()
 # colcon output handling
 COLCON_EVENT_HANDLING="--event-handlers desktop_notification- status-"
 
-# usage: run_script BEFORE_SCRIPT  or run_script BEFORE_DOCKER_SCRIPT
+# usage: run_script BEFORE_SCRIPT  or run_script BEFORE_DOCKER_SCRIPT or run_script AFTER_SCRIPT
 function run_script() {
    local script
    eval "script=\${$1:-}"  # fetch value of variable passed in $1 (double indirection)
@@ -84,6 +84,7 @@ function run_docker() {
         -e IN_DOCKER=1 \
         -e MOVEIT_CI_TRAVIS_TIMEOUT=$(travis_timeout $MOVEIT_CI_TRAVIS_TIMEOUT) \
         -e BEFORE_SCRIPT \
+        -e AFTER_SCRIPT \
         -e CI_SOURCE_PATH=${CI_SOURCE_PATH:-/root/$REPOSITORY_NAME} \
         -e UPSTREAM_WORKSPACE \
         -e TRAVIS \
@@ -409,6 +410,10 @@ for t in $(unify_list " ,;" "$TEST") ; do
          ;;
    esac
 done
+
+# run AFTER_SCRIPT
+run_script AFTER_SCRIPT
+
 # Run warnings check
 (source ${MOVEIT_CI_DIR}/check_warnings.sh)
 test $? -eq 0 || result=$(( ${result:-0} + 1 ))

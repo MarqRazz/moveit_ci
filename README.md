@@ -71,6 +71,7 @@ script:
   2. Directly specifying `DOCKER_IMAGE`, e.g. `DOCKER_IMAGE=moveit/moveit2:foxy-ci`. The docker image may define a `ROS_UNDERLAY` to build the catkin workspace against. By default, this is the root ROS folder in /opt/ros.
 - `BEFORE_DOCKER_SCRIPT`: (default: none): Used to specify shell commands or scripts that run before starting the docker container. This is similar to Travis' ``before_script`` section, but the variable allows to dynamically switch scripts within the testing matrix.
 - `BEFORE_SCRIPT`: (default: none): Used to specify shell commands or scripts that run in docker, just after setting up the ROS workspace and before actually starting the build processes. In contrast to BEFORE_DOCKER_SCRIPT, this script runs in the context of the docker container.
+- `AFTER_SCRIPT`: (default: none): Used to specify shell commands or scripts that run in docker, just after running any `TEST` the user has specified.
 - `UPSTREAM_WORKSPACE` (default: debian): Configure additional packages for your ROS workspace.
   By default, all dependent packages will be downloaded as binary packages from `$ROS_REPO`.
   Setting this variable to a `http://github.com/user/repo#branch` repository url, will clone the corresponding repository into the workspace.
